@@ -42,10 +42,12 @@
 
     <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
     <a href="{{ path('app_ticket_solve', {'id': ticket.id}) }}">
-        {% if ticket.solved %}
-            Réouvrir
-        {% else %}
-            Fermer
+        {% if isAuthor %}
+            {% if ticket.solved %}
+                Réouvrir
+            {% else %}
+                Fermer
+            {% endif %}
         {% endif %}
     </a>
 

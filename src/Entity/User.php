@@ -49,6 +49,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->tickets = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->setCreatedAt(new \DateTimeImmutable());
+        $this->setScore(0);
     }
 
     public function getId(): ?int
