@@ -51,22 +51,22 @@ class Tag
         return $this->tickets;
     }
 
-    public function addTicket(Ticket $ticket): static
-    {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets->add($ticket);
-            $ticket->addTag($this);
-        }
+//    public function addTicket(Ticket $ticket): static
+//    {
+//        if (!$this->tickets->contains($ticket)) {
+//            $this->tickets->add($ticket);
+//            $ticket->addTag($this);
+//        }
+//
+//        return $this;
+//    }
 
-        return $this;
-    }
-
-    public function removeTicket(Ticket $ticket): static
-    {
-        if ($this->tickets->removeElement($ticket)) {
-            $ticket->removeTag($this);
-        }
-
-        return $this;
-    }
+//    public function removeTicket(Ticket $ticket): static
+//    {
+//        if ($this->tickets->removeElement($ticket)) {
+//            $ticket->removeTag($this);
+//        }
+//
+//        return $this;
+//    }
 }
