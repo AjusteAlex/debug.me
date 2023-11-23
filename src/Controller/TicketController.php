@@ -65,6 +65,7 @@ class TicketController extends AbstractController
         return $this->render('ticket/show.html.twig', [
             'ticket' => $ticket,
             'author' => $author,
+            'isAuthor' => $this->isAuthor($ticket),
         ]);
     }
 
@@ -73,8 +74,6 @@ class TicketController extends AbstractController
     {
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
-
-        $isAuthor = $this->isAuthor($ticket);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
@@ -85,7 +84,7 @@ class TicketController extends AbstractController
         return $this->render('ticket/edit.html.twig', [
             'ticket' => $ticket,
             'form' => $form,
-            'isAuthor' => $isAuthor,
+            'isAuthor' => $this->isAuthor($ticket),
         ]);
     }
 
