@@ -7,7 +7,7 @@ services:
     volumes:
       - ./data:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: db_backoff
+      MYSQL_DATABASE: debug_db
       MYSQL_USERNAME: root
       MYSQL_ROOT_PASSWORD: password
     ports:
