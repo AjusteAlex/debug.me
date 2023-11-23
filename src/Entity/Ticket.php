@@ -32,7 +32,7 @@ class Ticket
     private ?User $author = null;
 
     #[ORM\Column]
-    private ?bool $solved = null;
+    private ?bool $solved = false;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tickets')]
     private Collection $tags;
@@ -44,6 +44,7 @@ class Ticket
     {
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->solved = false;
     }
 
     public function getId(): ?int
