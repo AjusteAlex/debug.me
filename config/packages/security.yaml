@@ -31,13 +31,15 @@ security:
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall
 
-      # https://symfony.com/doc/current/security/impersonating_user.html
+    # https://symfony.com/doc/current/security/impersonating_user.html
     # switch_user: true
 
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
     - { path: ^/demo, roles: ROLE_USER }
+    - { path: ^/tickets/new, roles: ROLE_USER }
+    - { path: ^/tickets/[0-9]+/edit, roles: ROLE_USER }
 
 when@test:
   security:

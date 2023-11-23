@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ticket{% endblock %}
+
+{% block body %}
+    <h1>Ticket</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ ticket.id }}</td>
+        </tr>
+        <tr>
+            <th>Author</th>
+            <td>{{ author.email }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ ticket.title }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td>{{ ticket.content }}</td>
+        </tr>
+        <tr>
+            <th>Created_at</th>
+            <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Updated_at</th>
+            <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Solved</th>
+            <td>{{ ticket.solved ? 'Yes' : 'No' }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ticket_index') }}">back to list</a>
+
+    <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
+    <a href="{{ path('app_ticket_solve', {'id': ticket.id}) }}">
+        {% if ticket.solved %}
+            Réouvrir
+        {% else %}
+            Fermer
+        {% endif %}
+    </a>
+
+    {{ include('ticket/_delete_form.html.twig') }}
+{% endblock %}
