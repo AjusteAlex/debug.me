@@ -12,8 +12,14 @@
             <td>{{ ticket.id }}</td>
         </tr>
         <tr>
+            <th>Tags</th>
+            {% for tag in ticket.tags %}
+                <td>{{ tag.name }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
             <th>Author</th>
-            <td>{{ author.email }}</td>
+            <td>{{ author.username }}</td>
         </tr>
         <tr>
             <th>Title</th>
