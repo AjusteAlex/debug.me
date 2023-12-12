@@ -24,12 +24,25 @@ class TicketController extends AbstractController
             foreach ($tickets as $ticket) {
                 $isAuthor = $this->isAuthor($ticket);
             }
+        } else {
+            $isAuthor = false;
         }
 
-        return $this->render('ticket/index.html.twig', [
-            'tickets' => $ticketRepository->findAll(),
-            'isAuthor' => $isAuthor,
-        ]);
+        return $this->render('ticket/index.html.twig', ['tickets' => $ticketRepository->findAll(), 'isAuthor' => $isAuthor]);
+    }
+
+    private function isAuthor(Ticket $ticket): ?bool
+    {
+        $user = $this->getUser();
+        if (null !== $user) {
+            if ($ticket->getAuthor()->getId() === $user->getId()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return null;
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
@@ -40,21 +53,24 @@ class TicketController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $datetime = new \DateTimeImmutable();
-            $user = $this->getUser();
-            $ticket->setAuthor($user);
-            $ticket->setCreatedAt($datetime);
+            if ($this->getUser()) {
+                $datetime = new \DateTimeImmutable();
 
-            $entityManager->persist($ticket);
-            $entityManager->flush();
+                $user = $this->getUser();
+                $userScore = $user->getScore();
+                $user->setScore($userScore + 1);
 
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+                $ticket->setAuthor($user);
+                $ticket->setCreatedAt($datetime);
+
+                $entityManager->persist($ticket);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
-        return $this->render('ticket/new.html.twig', [
-            'ticket' => $ticket,
-            'form' => $form,
-        ]);
+        return $this->render('ticket/new.html.twig', ['ticket' => $ticket, 'form' => $form]);
     }
 
     #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
@@ -62,11 +78,7 @@ class TicketController extends AbstractController
     {
         $author = $userRepository->findOneBy(['id' => $ticket->getAuthor()]);
 
-        return $this->render('ticket/show.html.twig', [
-            'ticket' => $ticket,
-            'author' => $author,
-            'isAuthor' => $this->isAuthor($ticket),
-        ]);
+        return $this->render('ticket/show.html.twig', ['ticket' => $ticket, 'author' => $author, 'isAuthor' => $this->isAuthor($ticket)]);
     }
 
     #[Route('/{id}/edit', name: 'app_ticket_edit', methods: ['GET', 'POST'])]
@@ -81,11 +93,7 @@ class TicketController extends AbstractController
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('ticket/edit.html.twig', [
-            'ticket' => $ticket,
-            'form' => $form,
-            'isAuthor' => $this->isAuthor($ticket),
-        ]);
+        return $this->render('ticket/edit.html.twig', ['ticket' => $ticket, 'form' => $form, 'isAuthor' => $this->isAuthor($ticket)]);
     }
 
     #[Route('/{id}/solve', name: 'app_ticket_solve', methods: ['GET', 'POST'])]
@@ -93,6 +101,11 @@ class TicketController extends AbstractController
     {
         if ($this->isAuthor($ticket)) {
             $ticket->isSolved() ? $ticket->setSolved(false) : $ticket->setSolved(true);
+
+            $user = $this->getUser();
+            $userScore = $user->getScore();
+            $user->setScore($userScore + 2);
+
             $entityManager->flush();
         }
 
@@ -110,19 +123,5 @@ class TicketController extends AbstractController
         }
 
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    private function isAuthor(Ticket $ticket): ?bool
-    {
-        $user = $this->getUser();
-        if (null !== $user) {
-            if ($ticket->getAuthor()->getId() === $user->getId()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        return null;
     }
 }
