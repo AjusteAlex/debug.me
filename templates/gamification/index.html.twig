@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les badges{% endblock %}
+
+{% block body %}
+
+    <h1>Les badges</h1>
+    {% for gamification in gamifications %}
+        <li>{{ gamification.name }}</li>
+    {% endfor %}
+{% endblock %}

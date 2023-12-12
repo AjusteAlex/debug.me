@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Ticket;
+use App\Entity\User;
 use App\Form\TicketType;
+use App\Repository\GamificationRepository;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
@@ -49,23 +51,34 @@ class TicketController extends AbstractController
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, GamificationRepository $gamificationRepository): Response
     {
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
-
+        $user = $this->getUser();
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->getUser()) {
+            if ($user) {
                 $datetime = new \DateTimeImmutable();
-
-                $user = $this->getUser();
+                
+                // si score modifier vérifier score et set badge
                 $userScore = $user->getScore();
                 $user->setScore($userScore + 1);
 
+                $badges = $gamificationRepository->findBy([], ['score' => 'DESC']);
+                foreach ($badges as $badge) {
+                    if ($userScore >= $badge->getScore()) {
+                        $user->setBadge($badge);
+                        break;
+                    }
+                }
+                
+                $entityManager->persist($user);
                 $ticket->setAuthor($user);
                 $ticket->setCreatedAt($datetime);
-
+                
+                
                 $entityManager->persist($ticket);
                 $entityManager->flush();
 

@@ -59,6 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'users', fetch: 'EAGER')]
+    private ?Gamification $badge = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -217,6 +220,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBadge(): ?Gamification
+    {
+        return $this->badge;
+    }
+
+    public function setBadge(?Gamification $badge): static
+    {
+        $this->badge = $badge;
 
         return $this;
     }
