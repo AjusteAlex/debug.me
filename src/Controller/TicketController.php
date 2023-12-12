@@ -6,7 +6,9 @@ use App\Entity\Ticket;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,19 +18,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class TicketController extends AbstractController
 {
     #[Route('/', name: 'app_ticket_index', methods: ['GET'])]
-    public function index(TicketRepository $ticketRepository): Response
+    public function index(TicketRepository $ticketRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $tickets = $ticketRepository->findAll();
+        $isAuthor = false;
 
         if (!empty($tickets)) {
             foreach ($tickets as $ticket) {
                 $isAuthor = $this->isAuthor($ticket);
             }
-        } else {
-            $isAuthor = false;
         }
 
-        return $this->render('ticket/index.html.twig', ['tickets' => $ticketRepository->findAll(), 'isAuthor' => $isAuthor]);
+        $pagination = $paginator->paginate($ticketRepository->findAllWithAuthorsQuery(), $request->query->getInt('page', 1), 10);
+
+        return $this->render('ticket/index.html.twig', ['pagination' => $pagination, 'isAuthor' => $isAuthor]);
     }
 
     private function isAuthor(Ticket $ticket): ?bool

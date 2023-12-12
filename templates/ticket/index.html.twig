@@ -11,23 +11,27 @@
             <th>Id</th>
             <th>Title</th>
             <th>Content</th>
+            <th>Author</th>
             <th>Created_at</th>
             <th>Updated_at</th>
             <th>Solved</th>
-            <th>Solved_at</th>
             <th>actions</th>
         </tr>
         </thead>
         <tbody>
-        {% for ticket in tickets %}
+        {% for ticket in pagination %}
             <tr>
                 <td>{{ ticket.id }}</td>
                 <td>{{ ticket.title }}</td>
-                <td>{{ ticket.content }}</td>
+                <td>{{ ticket.content | slice(0, 50) ~ '...' }}</td>
+                <td>{{ ticket.author.username }}</td>
                 <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ ticket.solved ? 'Yes' : 'No' }}</td>
-                <td>{{ ticket.solvedAt ? ticket.solvedAt|date('Y-m-d H:i:s') : '' }}</td>
+                {% if ticket.solved %}
+                    <td>Closed {{ ticket.solvedAt | date('Y-m-d H:i:s') }} </td>
+                {% else %}
+                    <td>Open</td>
+                {% endif %}
                 <td>
                     <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">show</a>
                     {% if isAuthor %}
@@ -40,6 +44,10 @@
                 <td colspan="7">no records found</td>
             </tr>
         {% endfor %}
+
+        <div class="pagination">
+            {{ knp_pagination_render(pagination) }}
+        </div>
         </tbody>
     </table>
 
