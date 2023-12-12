@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\TicketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 class Ticket
 {
@@ -15,24 +17,27 @@ class Ticket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $content = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updated_at = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $solved = false;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $solvedAt = null;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tickets')]
     private Collection $tags;
@@ -78,24 +83,39 @@ class Ticket
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function getSolvedAt(): ?\DateTimeImmutable
+    {
+        return $this->solvedAt;
+    }
+
+    #[ORM\PreUpdate]
+    public function setSolvedAt(): static
+    {
+        $this->solvedAt = new \DateTimeImmutable();
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): static
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): static
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = new \DateTimeImmutable();
 
         return $this;
     }

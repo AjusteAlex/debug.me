@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
 {
@@ -17,10 +18,10 @@ class Comment
     private ?string $content = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updated_at = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
@@ -49,24 +50,26 @@ class Comment
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = new \DateTimeImmutable();
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): static
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): static
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = new \DateTimeImmutable();
 
         return $this;
     }

@@ -14,6 +14,7 @@
             <th>Created_at</th>
             <th>Updated_at</th>
             <th>Solved</th>
+            <th>Solved_at</th>
             <th>actions</th>
         </tr>
         </thead>
@@ -26,6 +27,7 @@
                 <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ ticket.solved ? 'Yes' : 'No' }}</td>
+                <td>{{ ticket.solvedAt ? ticket.solvedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">show</a>
                     {% if isAuthor %}
