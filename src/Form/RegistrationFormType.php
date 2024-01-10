@@ -22,7 +22,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter les conditions générales.',
                     ]),
                 ],
             ])
@@ -42,8 +42,8 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+                'label' => 'Mot de passe'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
