@@ -1,57 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ticket index{% endblock %}
+{% block title %}Liste des tickets
+{% endblock %}
 
 {% block body %}
-    <h1>Ticket index</h1>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Author</th>
-            <th>Created_at</th>
-            <th>Updated_at</th>
-            <th>Solved</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for ticket in pagination %}
-            <tr>
-                <td>{{ ticket.id }}</td>
-                <td>{{ ticket.title }}</td>
-                <td>{{ ticket.content | slice(0, 50) ~ '...' }}</td>
-                <td>{{ ticket.author.username }}</td>
-                <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                {% if ticket.solved %}
-                    <td>Closed {{ ticket.solvedAt | date('Y-m-d H:i:s') }} </td>
-                {% else %}
-                    <td>Open</td>
-                {% endif %}
-                <td>
-                    <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">show</a>
-                    {% if isAuthor %}
-                        <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-
-        <div class="pagination">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-        </tbody>
-    </table>
-
-    {% if is_granted('ROLE_USER') %}
-        <a href="{{ path('app_ticket_new') }}">Create new</a>
-    {% endif %}
+	<div class="w-full flex justify-center content-center bg-white-transparent flex-col rounded pb-4 pt-2">
+		<div class="flex content-center flex-row justify-between m-2">
+			<h1 class="text-xl font-semibold">Liste des tickets</h1>
+			{% if is_granted('ROLE_USER') %}
+				<a href="{{ path('app_ticket_new') }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-blue-700 font-semibold hover:text-white-transparent py-2 px-4 border border-blue-500 hover:border-transparent rounded">Créer un ticket</a>
+			{% endif %}
+		</div>
+		<div class="table w-full">
+			<div class="table-row-group">
+				<div class="table-row">
+					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Utilisateur</div>
+					<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm font-semibold">Titre du ticket</div>
+					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Description</div>
+					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Date de création</div>
+					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Date de dernière modification</div>
+					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Etat du ticket</div>
+					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Tags</div>
+					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Actions</div>
+				</div>
+				<div class="table-row">
+					{% for ticket in pagination %}
+						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.author.username }}</div>
+						<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm">{{ ticket.title }}</div>
+						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.content | slice(0, 50) ~ '...' }}</div>
+						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d') : '' }}</div>
+						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d') : '' }}</div>
+						{% if ticket.solved %}
+							<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">Résolu
+								{{ ticket.solvedAt | date('Y-m-d H:i:s') }}
+							</div>
+						{% else %}
+							<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">Ouvert</div>
+						{% endif %}
+						{% if ticket.tags is defined and ticket.tags != null %}
+							{% if ticket.tags|length < 1 %}
+								<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.tags.name }}</div>
+							{% else %}
+								{% for tag in ticket.tags %}
+									<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ tag.name }}</div>
+								{% endfor %}
+							{% endif %}
+						{% else %}
+							<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">Pas de tag</div>
+						{% endif %}
+						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">
+							<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">show</a>
+							{% if isAuthor %}
+								<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
+							{% endif %}
+						</div>
+					{% else %}
+						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">Pas de ticket trouvé.</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
