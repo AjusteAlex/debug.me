@@ -14,15 +14,22 @@ class TicketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('title')->add('content', TextareaType::class)->add('tags', EntityType::class, [
-            'class' => Tag::class,
+        $builder->add('title')
+            ->add(
+                'content',
+                TextareaType::class,
+                [
+                    'attr' => ['class' => "rounded"]
+                ]
+            )
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                // uses the User.username property as the visible option string
+                'choice_label' => 'name',
 
-            // uses the User.username property as the visible option string
-            'choice_label' => 'name',
-
-            // used to render a select box, check boxes or radios
-            'multiple' => true, // 'expanded' => true,
-        ]);
+                // used to render a select box, check boxes or radios
+                'multiple' => true, // 'expanded' => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
