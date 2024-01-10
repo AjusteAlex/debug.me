@@ -6,7 +6,10 @@ $white-transparent: #f7f7f7d9;
 $gradient-pink-purple: linear-gradient(180deg, $pink 0%, $purple 100%);
 $layout-breakpoint-mobile: 768px;
 $layout-breakpoint-tablet: 1024px;
-
+.title-home-h1 {
+  font-size: xxx-large;
+  padding-left: 1em;
+}
 .body-global {
   width: 100%;
   min-height: 100vh;
