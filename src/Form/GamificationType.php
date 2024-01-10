@@ -35,13 +35,13 @@ class GamificationType extends AbstractType
                 'constraints' => [
                     new File([
                         // 'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpeg,',
-                            'image/pjpeg',
-                            'image/png',
-                            'image/gif',
-                            'image/jpg',
-                        ],
+                        // 'mimeTypes' => [
+                        //     'image/jpeg,',
+                        //     'image/pjpeg',
+                        //     'image/png',
+                        //     'image/gif',
+                        //     'image/jpg',
+                        // ],
                         'mimeTypesMessage' => 'Please upload a valid Picture    ',
                     ])
                 ],
