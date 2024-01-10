@@ -11,7 +11,7 @@ module.exports = {
       primary_color: "#1e1e1e",
       pink: "#ff5555",
       purple: "#4507a4",
-      white_transparent: "#f7f7f7d9",
+      "white-transparent": "#f7f7f7d9",
     },
     fontFamily: {
       serif: ["Lato"],
