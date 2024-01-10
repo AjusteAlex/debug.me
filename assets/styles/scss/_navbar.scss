@@ -1,4 +1,10 @@
 @use "base";
+#navbar {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  top: 0.5rem;
+}
 .navbar-link > a {
   color: base.$primary-color;
   text-decoration: none;

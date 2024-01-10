@@ -2,26 +2,28 @@ $font-stack: "Lato", sans-serif;
 $primary-color: #1e1e1e;
 $pink: #ff5555;
 $purple: #4507a4;
-$white-transparent: rgba(247, 247, 247, 0.85);
+$white-transparent: #f7f7f7d9;
+$gradient-pink-purple: linear-gradient(180deg, $pink 0%, $purple 100%);
+$layout-breakpoint-mobile: 768px;
+$layout-breakpoint-tablet: 1024px;
 
-body {
+.body-global {
   width: 100%;
   min-height: 100vh;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  margin-top: 5.5rem;
+  margin-bottom: 2rem;
   font: 100% $font-stack;
   color: $primary-color;
-  background: linear-gradient(
-    180deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(255, 85, 85, 1) 0%,
-    rgba(69, 7, 164, 1) 100%
-  );
+  background: $gradient-pink-purple;
 }
 
 .white-transparent {
   background: $white-transparent;
 }
 
-.border-radius-25 {
+.border-radius-15 {
   border-radius: 15px;
 }
 
@@ -41,4 +43,12 @@ body {
   border: 0;
   border-radius: 5px;
   padding: 5px;
+}
+
+.margin-top-05 {
+  margin-top: 0.5rem;
+}
+
+.margin-bottom-05 {
+  margin-bottom: 0.5rem;
 }

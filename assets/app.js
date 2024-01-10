@@ -8,6 +8,7 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import "./styles/scss/_base.scss";
 import "./styles/scss/_flex.scss";
+import "./styles/scss/_footer.scss";
 import "./styles/scss/_margin.scss";
 import "./styles/scss/_navbar.scss";
 import "./styles/scss/_padding.scss";
