@@ -10,6 +10,10 @@
 			<div class="font-bold text-xl mb-8">Inscription</div>
 			{{ form_start(registrationForm) }}
 			<div class="flex flex-col mb-2">
+				{{ form_label(registrationForm.username) }}
+				{{ form_widget(registrationForm.username) }}
+			</div>
+			<div class="flex flex-col mb-2">
 				{{ form_label(registrationForm.email) }}
 				{{ form_widget(registrationForm.email) }}
 			</div>
