@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: (theme) => ({
-        "connexion-pattern": "url('/public/img/img_connexion.png')",
+        "connexion-pattern": "url('/public/img/img-inscription.svg')",
       }),
       colors: {
         primary_color: "#1e1e1e",
