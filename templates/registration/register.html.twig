@@ -5,8 +5,8 @@
 
 {% block body %}
 	{{ form_errors(registrationForm) }}
-	<div class="bg-connexion-pattern w-full flex justify-center content-center">
-		<div class="max-w-sm rounded overflow-hidden shadow-lg w-1/3 p-8">
+	<div class="bg-cover bg-no-repeat bg-register-pattern bg-center grid place-items-center h-screen rounded">
+		<div class="rounded shadow-lg w-1/3 p-8 max-h-screen">
 			<div class="font-bold text-xl mb-8">Inscription</div>
 			{{ form_start(registrationForm) }}
 			<div class="flex flex-col mb-2">
@@ -27,7 +27,7 @@
 				<span class="mr-2">J'accepte les conditions générales</span>
 				{{ form_widget(registrationForm.agreeTerms) }}
 			</div>
-			<button type="submit" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-blue-700 font-semibold hover:text-white-transparent py-2 px-4 border border-blue-500 hover:border-transparent rounded mt-8">S'inscrire</button>
+			<button type="submit" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-none rounded mt-8">S'inscrire</button>
 			{{ form_end(registrationForm) }}
 		</div>
 	</div>
