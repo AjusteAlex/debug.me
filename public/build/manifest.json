@@ -3,5 +3,7 @@
   "build/app.js": "/build/app.js",
   "build/nav.js": "/build/nav.js",
   "build/runtime.js": "/build/runtime.js",
-  "build/images/img_connexion.png": "/build/images/img_connexion.d972b1b8.png"
+  "build/images/img-connexion.svg": "/build/images/img-connexion.49af82e1.svg",
+  "build/images/img-inscription.svg": "/build/images/img-inscription.b9401f29.svg",
+  "build/images/img-home.svg": "/build/images/img-home.05bee255.svg"
 }
