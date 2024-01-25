@@ -4,10 +4,12 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: (theme) => ({
-        "connexion-pattern": "url('/public/img/img_connexion.png')",
+        "home-pattern": "url('/public/img/img-home.svg')",
+        "register-pattern": "url('/public/img/img-inscription.svg')",
+        "login-pattern": "url('/public/img/img-connexion.svg')",
       }),
       colors: {
-        primary_color: "#1e1e1e",
+        "primary-color": "#1e1e1e",
         pink: "#ff5555",
         purple: "#4507a4",
         "white-transparent": "#f7f7f7d9",

@@ -4,9 +4,14 @@
 {% endblock %}
 
 {% block body %}
-	<div class="white-transparent border-radius-15 container-flex">
-		<h1 class="title-home-h1">Il n’a jamais été aussi simple de débuguer son code</h1>
-
-		<img src="img/img-home.png" alt="Image abstraite de la page d'accueil" width="75%">
+	<div class="white-transparent border-radius-15 flex lg:flex-row sm:flex-col sm:space-y-28">
+		<div class="pl-12">
+			<h1 class="lg:text-7xl sm:text-9xl font-semibold pt-10">Il n’a jamais été aussi simple de débuguer son code</h1>
+			<div class="text-center text-primary-color">
+				<a href="{{path('app_ticket_new')}}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-none rounded mt-8 block" style="display: inline-block;">Créer un ticket</a>
+				<a href="{{path('app_ticket_index')}}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-none rounded mt-8 block" style="display: inline-block;">Voir tous les tickets</a>
+			</div>
+		</div>
+		<img src="img/img-home.svg" alt="Image abstraite de la page d'accueil" class="max-w-none bottom-0 right-0 lg:w-2/3 sm:w-full mt-8">
 	</div>
 {% endblock %}
