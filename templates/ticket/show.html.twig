@@ -59,9 +59,39 @@
 		<div class="bg-white-transparent rounded p-2 my-4">
 			{{ ticket.content }}
 		</div>
-
+		<div>
+			<h2 class="font-bold">Commentaires</h2>
+			{% for response in ticket.comments %}
+				<div class="bg-white-transparent rounded p-2 my-4">
+					{{ response.content }}
+					<div class="flex flex-row space-x-10 my-2">
+						{% if response.updated_at is defined and response.updated_at is not null  %}
+							<span>Modifié le :
+								{{ response.updatedAt|date('Y-m-d H:i:s') }}
+							</span>
+						{% endif %}
+						{% if response.createdAt is defined and response.createdAt is not null  %}
+							<span>Créé le :
+								{{ response.createdAt|date('Y-m-d H:i:s') }}
+							</span>
+						{% endif %}
+						{% if response.author.username is defined and response.author.username is not null  %}
+							<span>Par :
+								{{ response.author.username }}
+							</span>
+						{% endif %}
+					</div>
+					{% if isAuthor %}
+						<a href="{{ path('app_ticket_response_edit', {'id': response.id}) }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-0.5 px-2 border border-primary-color hover:border-none rounded-full" style="overflow: hidden;">
+							Modifier
+						</a>
+						{{ include('ticket/_response_delete_form.html.twig') }}
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
 		<hr class="border border-purple m-4"/>
-		<a href="#" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-0.5 px-2 border border-primary-color hover:border-none rounded-full" style="overflow: hidden;">
+		<a href="{{ path('app_ticket_response', {'id': ticket.id}) }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-0.5 px-2 border border-primary-color hover:border-none rounded-full" style="overflow: hidden;">
 			Ajouter un commentaire
 		</a>
 		<div></div>
