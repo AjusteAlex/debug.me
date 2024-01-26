@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Ticket;
+use App\Entity\User;
+use App\Form\CommentType;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
@@ -115,7 +118,7 @@ class TicketController extends AbstractController
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}', name: 'app_ticket_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_ticket_delete', methods: ['DELETE'])]
     public function delete(Request $request, Ticket $ticket, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ticket->getId(), $request->request->get('_token'))) {
@@ -126,5 +129,28 @@ class TicketController extends AbstractController
         }
 
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/comment/{id}', name: 'app_ticket_response')]
+    public function responseTicket(int $id, Ticket $ticket, Request $request, EntityManagerInterface $em, User $user): Response
+    {   
+        $datetime = new \DateTimeImmutable();
+        $commentUser = new Comment();
+
+        $form = $this->createForm(CommentType::class, $commentUser);
+        $form->handleRequest($request);
+
+        $commentUser->setAuthor($this->getUser());
+        $commentUser->setTicket($ticket);
+        $commentUser->setCreatedAt($datetime);
+    
+        $em->persist($commentUser);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('ticket/comment.html.twig', ['form' => $form ]);
     }
 }
