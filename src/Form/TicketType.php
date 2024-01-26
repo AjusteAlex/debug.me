@@ -17,6 +17,7 @@ class TicketType extends AbstractType
     {
         $builder->add('title', TextType::class, [
             'label' => 'Titre',
+            'attr' => ['class' => "rounded"],
         ])
             ->add(
                 'content',
