@@ -1,15 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Ticket{% endblock %}
+{% block title %}Edit Ticket
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Ticket</h1>
-
-    {{ include('ticket/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_ticket_index') }}">back to list</a>
-
-    {% if isAuthor %}
-        {{ include('ticket/_delete_form.html.twig') }}
-    {% endif %}
+	<div class="w-full flex justify-center content-center flex-col rounded pt-2">
+		<div class="flex content-center flex-row justify-between m-4">
+			<a href="{{ path('app_ticket_index') }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-none rounded" style="overflow: hidden;">
+				Retour
+			</a>
+		</div>
+	</div>
+	<div class="m-4">
+		<h1>Modifier le ticket :
+			<span class="font-semibold">{{ ticket.title|capitalize }}</span>
+		</h1>
+		<div class="flex flex-row space-x-10 my-2">
+			{% if isAuthor %}
+				{{ include('ticket/_delete_form.html.twig') }}
+			{% endif %}
+		</div>
+		{{ include('ticket/_form.html.twig', {'button_label': 'Enregistrer les modifications'}) }}
+	</div>
 {% endblock %}
