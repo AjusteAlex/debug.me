@@ -17,8 +17,15 @@
 		<div class="hidden lg:flex lg:gap-x-12 flex items-baseline ">
 			<input type="text" class="block rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6" placeholder="Chercher...">
 			<a href="{{ path('app_ticket_index') }}" class="text-sm font-semibold text-gray-900">Tickets</a>
-			<a href="{{ path('app_register') }}" class="text-sm font-semibold text-gray-900">S'inscrire</a>
-			<a href="{{ path('app_login') }}" class="text-sm font-semibold text-gray-900">Se connecter</a>
+		
+			{% if app.user %}
+				{# <a href="{{ path('app_account') }}" class="text-sm font-semibold text-gray-900">Mon compte</a> #}
+				<a href="{{ path('app_logout') }}" class="text-sm font-semibold text-gray-900">Se déconnecter</a>
+		
+			{% else %}
+				<a href="{{ path('app_register') }}" class="text-sm font-semibold text-gray-900">S'inscrire</a>
+				<a href="{{ path('app_login') }}" class="text-sm font-semibold text-gray-900">Se connecter</a>
+			{% endif %}
 		</div>
 	</nav>
 	<!-- Mobile menu, show/hide based on menu open state. -->
