@@ -63,8 +63,7 @@
 			<h2 class="font-bold">Commentaires</h2>
 			{% for response in ticket.comments %}
 				<div class="bg-white-transparent rounded p-2 my-4">
-					{{ response.content }}
-					<div class="flex flex-row space-x-10 my-2">
+					<div class="flex flex-col space-x-10 my-2">
 						{% if response.updated_at is defined and response.updated_at is not null  %}
 							<span>Modifié le :
 								{{ response.updatedAt|date('Y-m-d H:i:s') }}
@@ -80,6 +79,9 @@
 								{{ response.author.username }}
 							</span>
 						{% endif %}
+					</div>
+					<div class="mt-6">
+					{{ response.content }}
 					</div>
 					{% if isAuthor %}
 						<a href="{{ path('app_ticket_response_edit', {'id': response.id}) }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-0.5 px-2 border border-primary-color hover:border-none rounded-full" style="overflow: hidden;">
