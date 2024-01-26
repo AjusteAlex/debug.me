@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+
+<div class="flex flex-col">
+	{{ form_label(form.content) }}
+	{{ form_widget(form.content) }}
+</div>
+<button class="bg-white-transparent hover:bg-gradient-to-r from-pink to-purple text-primary_color font-semibold hover:text-white-transparent py-2 px-4 border border-white-transparent hover:border-transparent rounded mt-8">{{ button_label|default('Créer le ticket') }}</button>
+{{ form_end(form) }}
