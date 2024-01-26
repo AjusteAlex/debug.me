@@ -4,61 +4,70 @@
 {% endblock %}
 
 {% block body %}
-	<div class="w-full flex justify-center content-center bg-white-transparent flex-col rounded pb-4 pt-2">
-		<div class="flex content-center flex-row justify-between m-2">
+
+	<div class="bg-white-transparent rounded pb-4 pt-2">
+		<div class="flex content-center lg:flex-row sm:flex-col justify-between m-2 items-baseline">
 			<h1 class="text-xl font-semibold">Liste des tickets</h1>
 			{% if is_granted('ROLE_USER') %}
-				<a href="{{ path('app_ticket_new') }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-blue-700 font-semibold hover:text-white-transparent py-2 px-4 border border-blue-500 hover:border-transparent rounded">Créer un ticket</a>
+				<a href="{{ path('app_ticket_new') }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-transparent rounded">Créer un ticket</a>
 			{% endif %}
 		</div>
-		<div class="table w-full">
-			<div class="table-row-group">
-				<div class="table-row">
-					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Utilisateur</div>
-					<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm font-semibold">Titre du ticket</div>
-					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Description</div>
-					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Date de création</div>
-					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Date de dernière modification</div>
-					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Etat du ticket</div>
-					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Tags</div>
-					<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm font-semibold">Actions</div>
-				</div>
-				<div class="table-row">
-					{% for ticket in pagination %}
-						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.author.username }}</div>
-						<div class="table-cell bg-gray-400 text-gray-700 px-4 py-2 text-sm">{{ ticket.title }}</div>
-						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.content | slice(0, 50) ~ '...' }}</div>
-						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d') : '' }}</div>
-						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d') : '' }}</div>
-						{% if ticket.solved %}
-							<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">Résolu
-								{{ ticket.solvedAt | date('Y-m-d H:i:s') }}
-							</div>
-						{% else %}
-							<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">Ouvert</div>
-						{% endif %}
+
+		<div class="flex flex-wrap">
+			{% for ticket in pagination %}
+				{% if loop.index % 3 == 1 %}
+					<div class="flex lg:flex-row sm:flex-col">
+					{% endif %}
+					<div class="m-2  p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 						{% if ticket.tags is defined and ticket.tags != null %}
-							{% if ticket.tags|length < 1 %}
-								<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ ticket.tags.name }}</div>
-							{% else %}
-								{% for tag in ticket.tags %}
-									<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">{{ tag.name }}</div>
-								{% endfor %}
-							{% endif %}
+							{% for tag in ticket.tags %}
+								<span class="border border-primary-color text-primary-color text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:border-primary-color dark:text-primary-color">{{ tag.name }}</span>
+							{% endfor %}
 						{% else %}
-							<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">Pas de tag</div>
+							<span class="border border-primary-color text-primary-color text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:border-primary-color dark:text-primary-color">Pas de tag</span>
 						{% endif %}
-						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">
-							<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">show</a>
-							{% if isAuthor %}
-								<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
+						<hr class="border border-purple mb-1 mt-2"/>
+						{% if ticket.solved %}
+							<span class="text-gray-700 text-sm">💞 Résolu
+								{{ ticket.solvedAt | date('Y-m-d H:i:s') }}
+							</span>
+						{% else %}
+							<span class="text-gray-700 text-sm">💚Ouvert</span>
+						{% endif %}
+						<span class="text-gray-700 text-sm">
+							| 🕕
+							{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d') : ''}}
+							{% if ticket.updatedAt is defined and ticket.updatedAt is not null %}
+								(modifié le
+								{{ ticket.updatedAt|date('Y-m-d') }})
 							{% endif %}
-						</div>
-					{% else %}
-						<div class="table-cell bg-gray-200 text-gray-700 px-4 py-2 text-sm">Pas de ticket trouvé.</div>
-					{% endfor %}
-				</div>
+						</span>
+						<a href="#">
+							<h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ ticket.title }}</h2>
+						</a>
+						<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ ticket.content | slice(0, 150) ~ '...' }}</p>
+						<a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center hover:text-white-transparent border border-primary-color text-primary-color bg-white rounded-lg hover:bg-gradient-to-r from-pink to-purple focus:ring-4 focus:outline-none focus:ring-blue-300">
+							Voir plus
+							<svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 14 10">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+							</svg>
+						</a>
+						{% if isAuthor %}
+							<a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center hover:text-white-transparent border border-primary-color text-primary-color bg-white rounded-lg hover:bg-gradient-to-r from-pink to-purple focus:ring-4 focus:outline-none focus:ring-blue-300">
+								Modifier
+							</a>
+						{% endif %}
+					</div>
+					{% if loop.index % 3 == 0 or loop.last %}
+					</div>
+				{% endif %}
+			{% endfor %}
+			<div class="pagination">
+				{{ knp_pagination_render(pagination) }}
 			</div>
 		</div>
+
+
 	</div>
+
 {% endblock %}
