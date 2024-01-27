@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SecurityController!
+{% endblock %}
+
+{% block body %}
+    <div class="bg-cover bg-no-repeat bg-login-pattern bg-center grid place-items-center h-screen rounded">
+        <div class="profile">
+            <h2>Profil de {{ user.username }}</h2>
+            <p>Email: {{ user.email }}</p>
+        </div>
+    </div>
+{% endblock %}

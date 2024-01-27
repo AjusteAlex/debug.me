@@ -36,4 +36,13 @@ class SecurityController extends AbstractController
     public function logout(): never
     {
     }
+
+    #[Route('/profil', name: 'app_profil', methods: ['GET'])]
+    public function profil()
+    {
+        $user = $this->getUser();
+
+        return $this->render('security/profil.html.twig', [
+            'user' => $user]);
+    }
 }
