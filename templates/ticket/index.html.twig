@@ -8,9 +8,15 @@
 	<div class="bg-white-transparent rounded pb-4 pt-2">
 		<div class="flex content-center lg:flex-row sm:flex-col justify-between m-2 items-baseline">
 			<h1 class="text-xl font-semibold">Liste des tickets</h1>
-			{% if is_granted('ROLE_USER') %}
-				<a href="{{ path('app_ticket_new') }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-transparent rounded">Créer un ticket</a>
-			{% endif %}
+			<div>
+				{% if is_granted('ROLE_USER') %}
+					<a href="{{ path('app_ticket_new') }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-transparent rounded">Créer un ticket</a>
+				{% endif %}
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('app_tag_index') }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-transparent rounded">Liste des tags</a>
+
+				{% endif %}
+			</div>
 		</div>
 
 		<div class="flex flex-wrap">

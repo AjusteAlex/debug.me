@@ -1,4 +1,8 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{# {{ form_widget(form) }} #}
+<div class="flex flex-col mb-4 space-y-1">
+	{{ form_label(form.name) }}
+	{{ form_widget(form.name) }}
+</div>
+<button class=" mt-4 bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-none rounded" style="overflow: hidden;">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

@@ -1,35 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tag index{% endblock %}
+{% block title %}Liste des tags
+{% endblock %}
 
 {% block body %}
-    <h1>Tag index</h1>
+	<div class="rounded pb-4 pt-2 m-4">
+		<div class="flex content-center lg:flex-row sm:flex-col justify-between m-2 items-baseline mb-4">
+			<h1 class="text-xl font-semibold">Liste des tags</h1>
+			<div>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('app_tag_new') }}" class="bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-2 px-4 border border-primary-color hover:border-transparent rounded">Créer un tag</a>
+				{% endif %}
+			</div>
+		</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tag in tags %}
-            <tr>
-                <td>{{ tag.id }}</td>
-                <td>{{ tag.name }}</td>
-                <td>
-                    <a href="{{ path('app_tag_show', {'id': tag.id}) }}">show</a>
-                    <a href="{{ path('app_tag_edit', {'id': tag.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_tag_new') }}">Create new</a>
+		<div class="relative overflow-x-auto m-2">
+			<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+				<thead class="text-xs text-primary-color uppercase bg-white-transparent">
+					<tr>
+						<th scope="col" class="px-6 py-3">
+							Nom
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Actions
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for tag in tags %}
+						<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+							<th scope="row" class="px-6 py-4 font-medium text-primary-color whitespace-nowrap">
+								{{ tag.name }}
+							</th>
+							<td scope="row" class="px-6 py-4 font-medium text-primary-color whitespace-nowrap">
+								<a href="{{ path('app_tag_show', {'id': tag.id}) }}">Voir</a>
+								<a href="{{ path('app_tag_edit', {'id': tag.id}) }}">Modifier</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<th scope="row" class="px-6 py-4 font-medium text-primary-color whitespace-nowrap">
+								Pas de tag.
+							</th>
+							<td scope="row" class="px-6 py-4 font-medium text-primary-color whitespace-nowrap">
+								Actions impossibles.
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
 {% endblock %}
