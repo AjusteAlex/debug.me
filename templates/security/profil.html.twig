@@ -4,10 +4,23 @@
 {% endblock %}
 
 {% block body %}
-    <div class="bg-cover bg-no-repeat bg-login-pattern bg-center grid place-items-center h-screen rounded">
-        <div class="profile">
-            <h2>Profil de {{ user.username }}</h2>
-            <p>Email: {{ user.email }}</p>
-        </div>
-    </div>
+	<div class="lg:bg-cover lg:bg-no-repeat lg:bg-login-pattern lg:bg-center lg:grid lg:place-items-center lg:h-screen sm:flex sm:justify-center rounded">
+		<div class="rounded shadow-lg w-full sm:m-2 p-8 max-h-screen">
+			<h1 class="font-bold text-xl mb-8">Informations générales
+			</h1>
+			<div class="flex flex-col">
+				<span class="font-semibold">Pseudo</span>
+				<span>{{ user.username }}</span>
+			</div>
+			<div class="flex flex-col">
+				<span class="font-semibold">Email</span>
+				<span>{{ user.email }}</span>
+			</div>
+			<div class="mt-4">
+				<a href=" {{ path('app_profil_edit', {'id': user.id} ) }}" class=" bg-transparent hover:bg-gradient-to-r from-pink to-purple text-primary-color font-semibold hover:text-white-transparent py-0.5 px-2 border border-primary-color hover:border-none rounded-full" style=" overflow: hidden;">
+					Modifier
+				</a>
+			</div>
+		</div>
+	</div>
 {% endblock %}
