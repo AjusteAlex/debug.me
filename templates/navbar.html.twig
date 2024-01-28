@@ -3,7 +3,7 @@
 		<div class="flex lg:flex-1">
 			<a href="{{path('index_home')}}" class="-m-1.5 p-1.5">
 				<span class="sr-only">Debug.me</span>
-				<img class="h-8 w-auto" src="./img/logo_debug_me.png" alt="Logo de debug.me">
+				<img class="h-8 w-auto" src="{{ asset('img/logo_debug_me.png') }}" alt="Logo de debug.me">
 			</a>
 		</div>
 		<div class="flex lg:hidden">
@@ -17,11 +17,11 @@
 		<div class="hidden lg:flex lg:gap-x-12 flex items-baseline ">
 			<input type="text" class="block rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary-color sm:text-sm sm:leading-6" placeholder="Chercher...">
 			<a href="{{ path('app_ticket_index') }}" class="text-sm font-semibold text-gray-900">Tickets</a>
-		
+
 			{% if app.user %}
 				<a href="{{ path('app_profil') }}" class="text-sm font-semibold text-gray-900">Mon compte</a>
 				<a href="{{ path('app_logout') }}" class="text-sm font-semibold text-gray-900">Se déconnecter</a>
-		
+
 			{% else %}
 				<a href="{{ path('app_register') }}" class="text-sm font-semibold text-gray-900">S'inscrire</a>
 				<a href="{{ path('app_login') }}" class="text-sm font-semibold text-gray-900">Se connecter</a>
