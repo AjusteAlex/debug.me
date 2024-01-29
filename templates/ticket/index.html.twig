@@ -24,13 +24,13 @@
 				{% if loop.index % 3 == 1 %}
 					<div class="flex lg:flex-row sm:flex-col">
 					{% endif %}
-					<div class="m-2  p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+					<div class="m-2  p-6 bg-white border border-gray-200 rounded-lg shadow">
 						{% if ticket.tags is defined and ticket.tags != null %}
 							{% for tag in ticket.tags %}
-								<span class="border border-primary-color text-primary-color text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:border-primary-color dark:text-primary-color">{{ tag.name }}</span>
+								<span class="border border-primary-color text-primary-color text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ tag.name }}</span>
 							{% endfor %}
 						{% else %}
-							<span class="border border-primary-color text-primary-color text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:border-primary-color dark:text-primary-color">Pas de tag</span>
+							<span class="border border-primary-color text-primary-color text-xs font-medium me-2 px-2.5 py-0.5 rounded">Pas de tag</span>
 						{% endif %}
 						<hr class="border border-purple mb-1 mt-2"/>
 						{% if ticket.solved %}
